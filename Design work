@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shruti Murali — Lead Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Melodrama:wght@400;700&family=DM+Serif+Display:ital@0;1&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=Martian+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- fallback fonts in case newer ones aren't available -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════
+   SHRUTI'S CUSTOM DESIGN TOKENS
+   Palette: dusty rose · warm stone · deep forest · chalk
+   NOT blue. NOT purple. NOT amber.
+════════════════════════════════ */
+:root {
+  /* backgrounds */
+  --chalk:    #F2EEE8;   /* main bg — warm parchment */
+  --chalk2:   #E8E3DB;   /* section alt */
+  --chalk3:   #DDD7CD;   /* card bg */
+  --paper:    #FAF8F4;   /* bright section */
+
+  /* inks */
+  --forest:   #1B2E1F;   /* darkest — main text */
+  --forest2:  #2D4A32;   /* body text on light */
+  --stone:    #6B6459;   /* muted/secondary */
+
+  /* hero background */
+  --deep:     #0F1A11;   /* very dark forest */
+  --deep2:    #162018;   /* slightly lighter */
+  --deep3:    #1E2D20;   /* panel on dark */
+
+  /* SIGNATURE ACCENT — dusty rose */
+  --rose:     #C4796A;   /* main accent */
+  --rose2:    #D4937F;   /* hover/lighter */
+  --rose-bg:  #FAF0EE;   /* tinted bg */
+  --rose-dim: rgba(196,121,106,.15);
+
+  /* secondary accent — sage */
+  --sage:     #7A9E7E;   /* secondary */
+  --sage-dim: rgba(122,158,126,.12);
+
+  /* lines */
+  --rule:     rgba(27,46,31,.1);
+  --rule-lt:  rgba(255,255,255,.07);
+
+  /* type sizes */
+  --ts-xs:   11px;
+  --ts-sm:   14px;
+  --ts-md:   17px;
+  --ts-lg:   22px;
+  --ts-xl:   32px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+
+body{
+  font-family:'Plus Jakarta Sans','Cabinet Grotesk',sans-serif;
+  background:var(--chalk);
+  color:var(--forest);
+  line-height:1.75;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── custom cursor ── */
+#cur,#cur-ring{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%);top:0;left:0}
+#cur{width:9px;height:9px;background:var(--rose);transition:width .18s,height .18s}
+#cur-ring{width:32px;height:32px;border:1.5px solid var(--rose);opacity:.4;transition:all .38s cubic-bezier(.22,1,.36,1)}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:14px;height:14px}
+
+/* ── type system ── */
+.f-display{
+  font-family:'Playfair Display','DM Serif Display',serif;
+  font-weight:900;line-height:.88;letter-spacing:-.04em;
+}
+.f-head{
+  font-family:'Playfair Display','DM Serif Display',serif;
+  font-weight:700;line-height:1.05;letter-spacing:-.02em;
+}
+.f-italic{
+  font-family:'Playfair Display','DM Serif Display',serif;
+  font-style:italic;font-weight:400;
+}
+.f-body{font-family:'Plus Jakarta Sans',sans-serif;font-weight:400}
+.f-mono{font-family:'IBM Plex Mono','Martian Mono',monospace;letter-spacing:.04em}
+
+/* ── nav ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 52px;
+  transition:background .35s,border-color .35s;
+}
+nav.solid{
+  background:rgba(242,238,232,.93);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--rule);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:20px;font-weight:700;letter-spacing:-.02em;
+  color:var(--forest);cursor:pointer;
+}
+.nav-logo em{font-style:italic;color:var(--rose)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-btn{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--stone);background:none;border:none;cursor:pointer;
+  transition:color .2s;padding:0;
+}
+.nav-btn:hover{color:var(--forest)}
+.nav-cta{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:600;
+  background:var(--forest);color:var(--chalk);
+  padding:9px 22px;border-radius:100px;border:none;
+  cursor:pointer;transition:background .2s,transform .15s;
+}
+.nav-cta:hover{background:var(--rose);transform:translateY(-1px)}
+
+/* ── pages ── */
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+
+/* ── reveal ── */
+.r{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.r.on{opacity:1;transform:none}
+.r.d1{transition-delay:.1s}.r.d2{transition-delay:.22s}.r.d3{transition-delay:.36s}.r.d4{transition-delay:.52s}
+
+/* ════════════════════════════════
+   HOME HERO
+════════════════════════════════ */
+.hero{
+  min-height:100svh;
+  background:var(--deep);
+  display:grid;grid-template-rows:1fr auto;
+  overflow:hidden;position:relative;
+}
+
+/* noise grain */
+.hero:before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  background-size:200px;mix-blend-mode:overlay;
+}
+
+/* big decorative circle */
+.hero-circle{
+  position:absolute;z-index:1;
+  width:680px;height:680px;border-radius:50%;
+  border:1px solid rgba(196,121,106,.1);
+  top:50%;left:55%;
+  transform:translate(-50%,-50%);
+}
+.hero-circle2{
+  position:absolute;z-index:1;
+  width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(196,121,106,.08) 0%,transparent 70%);
+  top:50%;left:55%;
+  transform:translate(-50%,-50%);
+}
+
+.hero-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:110px 52px 64px;
+}
+
+.hero-kicker{display:flex;align-items:center;gap:10px;margin-bottom:44px}
+.hero-kicker-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--rose);
+  animation:pulse 3s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.hero-kicker-txt{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+}
+
+.hero-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(68px,10.5vw,152px);
+  font-weight:900;line-height:.86;
+  letter-spacing:-.045em;color:#fff;
+}
+.hero-name .italic{font-style:italic;font-weight:400;color:var(--rose2)}
+.hero-name .ghost{
+  color:transparent;
+  -webkit-text-stroke:1.5px rgba(255,255,255,.1);
+}
+
+.hero-lower{
+  display:flex;align-items:flex-end;
+  justify-content:space-between;
+  margin-top:56px;gap:32px;
+}
+.hero-tagline{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(17px,1.9vw,22px);
+  color:rgba(255,255,255,.4);
+  max-width:480px;line-height:1.55;
+  font-weight:400;
+}
+.hero-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0}
+.hero-pill{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.1em;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:100px;padding:5px 14px;
+  color:rgba(255,255,255,.3);white-space:nowrap;
+}
+.hero-pill.live{
+  background:var(--rose-dim);
+  border-color:rgba(196,121,106,.35);
+  color:var(--rose2);
+}
+
+.hero-foot{
+  position:relative;z-index:2;
+  padding:20px 52px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hero-foot-l{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.15);letter-spacing:.1em;text-transform:uppercase}
+.scroll-hint{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.18);letter-spacing:.12em}
+.scroll-track{width:44px;height:1px;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
+.scroll-track:after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:var(--rose);animation:slide 2s ease-in-out infinite}
+@keyframes slide{to{left:120%}}
+
+/* ════════════════════════════════
+   METRICS STRIP
+════════════════════════════════ */
+.metrics{
+  background:var(--rose);
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.metric{
+  padding:44px 36px;
+  border-right:1px solid rgba(255,255,255,.15);
+  transition:background .2s;cursor:default;
+}
+.metric:last-child{border:none}
+.metric:hover{background:rgba(255,255,255,.07)}
+.metric-n{
+  font-family:'Playfair Display',serif;
+  font-size:50px;font-weight:900;
+  color:#fff;line-height:1;margin-bottom:5px;
+}
+.metric-l{font-size:13px;color:rgba(255,255,255,.65);line-height:1.4;font-weight:400}
+
+/* ════════════════════════════════
+   LAYOUT
+════════════════════════════════ */
+.sec{padding:96px 52px}
+.sec--alt{background:var(--paper)}
+.sec--dark{background:var(--deep)}
+.sec--tinted{background:var(--chalk2)}
+
+.overline{
+  display:flex;align-items:center;gap:10px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--stone);
+  margin-bottom:18px;
+}
+.overline::before{content:'';width:20px;height:1.5px;background:var(--rose);flex-shrink:0}
+.overline.lt{color:rgba(255,255,255,.3)}
+.overline.lt::before{background:var(--rose2)}
+.overline.sage-c{color:var(--sage)}
+.overline.sage-c::before{background:var(--sage)}
+
+.sec-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,5vw,58px);
+  font-weight:900;letter-spacing:-.035em;
+  line-height:.97;margin-bottom:18px;
+}
+.sec-h em{font-style:italic;font-weight:400;color:var(--rose)}
+.sec-h.on-dk{color:#fff}
+.sec-h.on-dk em{color:var(--rose2)}
+
+hr.rl{border:none;border-top:1px solid var(--rule)}
+hr.rl-lt{border:none;border-top:1px solid var(--rule-lt)}
+
+/* ════════════════════════════════
+   WORK CARDS
+════════════════════════════════ */
+.work-grid{display:grid;gap:3px;margin-top:52px}
+
+.wcard{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:400px;cursor:pointer;
+  overflow:hidden;
+  transition:opacity .2s;
+}
+.wcard:hover{opacity:.95}
+.wcard.rev{direction:rtl}
+.wcard.rev>*{direction:ltr}
+
+.wcard-copy{
+  background:var(--chalk2);
+  padding:56px 52px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  transition:background .25s;
+}
+.wcard:hover .wcard-copy{background:var(--chalk3)}
+
+.wc-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:16px;
+}
+.wc-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,3.5vw,40px);
+  font-weight:900;letter-spacing:-.03em;
+  line-height:1.0;margin-bottom:14px;
+}
+.wc-desc{font-size:15px;color:var(--forest2);line-height:1.75;max-width:380px}
+
+.wc-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:32px;padding-top:22px;
+  border-top:1px solid var(--rule);
+}
+.wc-chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.06em;
+  background:var(--chalk);color:var(--stone);
+  border-radius:2px;padding:4px 10px;
+}
+.wc-arr{
+  width:40px;height:40px;border-radius:50%;
+  border:1.5px solid var(--rule);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--stone);flex-shrink:0;
+  transition:all .2s;
+}
+.wcard:hover .wc-arr{background:var(--rose);border-color:var(--rose);color:#fff;transform:translateX(3px)}
+
+/* visual panels */
+.wcard-vis{
+  display:flex;align-items:center;justify-content:center;
+  padding:40px;min-height:400px;
+  position:relative;overflow:hidden;
+}
+.vis-omni{background:linear-gradient(140deg,#0F1A11 0%,#1B2E1F 55%,#2D4A32 100%)}
+.vis-quloi{background:linear-gradient(140deg,#1A1410 0%,#2D2218 55%,#3D3020 100%)}
+.vis-book{background:linear-gradient(140deg,#180F14 0%,#2A1520 55%,#3D1F30 100%)}
+
+/* floating ui mockups inside vis panels */
+.mock-card{
+  width:88%;max-width:340px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:22px;
+  box-shadow:0 24px 56px rgba(0,0,0,.5);
+}
+.mock-bar{height:8px;border-radius:3px;margin-bottom:5px}
+.mock-label{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.mock-stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.mock-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);border-radius:5px;padding:10px;text-align:center}
+.mock-stat-n{font-family:'IBM Plex Mono',monospace;font-size:16px;color:#fff;font-weight:500}
+.mock-stat-l{font-size:7.5px;color:rgba(255,255,255,.25);margin-top:2px}
+.mock-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.mock-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.mock-lbl{font-family:'IBM Plex Mono',monospace;font-size:7.5px;color:rgba(255,255,255,.2);width:50px;flex-shrink:0}
+.mock-fill{height:7px;border-radius:2px;flex:1;background:rgba(255,255,255,.07)}
+
+/* phone mockup */
+.mock-phone{
+  width:130px;background:#130D10;
+  border-radius:22px;border:1.5px solid rgba(255,255,255,.1);
+  padding:12px 10px;
+  box-shadow:0 28px 56px rgba(0,0,0,.7);
+}
+.mock-phone-notch{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 10px}
+.mock-book-card{width:100%;height:76px;border-radius:5px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.mock-book-ttl{font-size:8px;color:rgba(255,255,255,.65);font-weight:600;margin-bottom:2px}
+.mock-book-price{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(255,255,255,.35)}
+
+/* ════════════════════════════════
+   ABOUT
+════════════════════════════════ */
+.about-wrap{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:start;
+  max-width:1180px;margin:0 auto;
+}
+.about-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(30px,3.8vw,48px);
+  font-weight:900;letter-spacing:-.03em;
+  line-height:1.05;margin-bottom:26px;
+}
+.about-h em{font-style:italic;font-weight:400;color:var(--rose)}
+.body-txt{font-size:16px;color:var(--forest2);line-height:1.82}
+.body-txt p+p{margin-top:18px}
+
+.gold-banner{
+  display:flex;align-items:center;gap:14px;
+  background:var(--deep);color:#fff;
+  padding:18px 22px;border-radius:4px;margin-top:28px;
+}
+.gold-icon{font-size:22px;flex-shrink:0}
+.gold-txt{font-size:14px;color:rgba(255,255,255,.65);line-height:1.45}
+.gold-txt strong{color:var(--rose2);display:block;margin-bottom:2px}
+
+.skill-blocks{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:36px}
+.skill-b{
+  background:var(--chalk2);padding:26px 22px;
+  transition:background .2s;
+}
+.skill-b:hover{background:var(--chalk3)}
+.skill-tag{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
+.skill-ttl{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:6px}
+.skill-desc{font-size:12.5px;color:var(--stone);line-height:1.6}
+
+/* experience */
+.exp-item{
+  display:grid;grid-template-columns:120px 1fr;
+  gap:16px;padding:24px 0;
+  border-bottom:1px solid var(--rule);align-items:start;
+}
+.exp-item:last-child{border:none}
+.exp-yr{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--stone);padding-top:4px;line-height:1.5}
+.exp-role{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;margin-bottom:2px}
+.exp-co{font-size:13px;color:var(--rose);font-weight:600;margin-bottom:4px}
+.exp-desc{font-size:13px;color:var(--stone);line-height:1.65}
+
+/* certs */
+.cert-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.cert{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.06em;
+  background:var(--deep);color:rgba(255,255,255,.55);
+  border-radius:3px;padding:6px 12px;
+}
+
+/* ════════════════════════════════
+   CONTACT
+════════════════════════════════ */
+.contact-wrap{
+  background:var(--deep);
+  padding:96px 52px 60px;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:72px;align-items:end;
+}
+.contact-big{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px,8.5vw,104px);
+  font-weight:900;color:#fff;
+  line-height:.86;letter-spacing:-.045em;
+  margin-bottom:24px;
+}
+.contact-big em{font-style:italic;font-weight:400;color:var(--rose2)}
+.contact-sub{font-size:15px;color:rgba(255,255,255,.35);line-height:1.72;max-width:380px}
+.contact-links{display:flex;flex-direction:column}
+.contact-link{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 0;border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:15px;font-weight:500;color:rgba(255,255,255,.45);
+  cursor:pointer;transition:color .2s;gap:16px;
+}
+.contact-link:hover{color:#fff}
+.contact-link:hover .cl-arr{transform:translateX(5px)}
+.cl-arr{transition:transform .2s;flex-shrink:0}
+.contact-foot{
+  grid-column:1/-1;
+  margin-top:56px;padding-top:24px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.contact-credit{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(255,255,255,.18);letter-spacing:.1em;text-transform:uppercase}
+
+/* ════════════════════════════════
+   CASE STUDY PAGES
+════════════════════════════════ */
+.cs-hero{
+  min-height:100svh;
+  display:grid;grid-template-rows:1fr auto;
+  overflow:hidden;position:relative;padding-top:80px;
+}
+.cs-omni-bg{background:linear-gradient(140deg,#0F1A11 0%,#162018 45%,#1E2D20 100%)}
+.cs-quloi-bg{background:linear-gradient(140deg,#1A120E 0%,#261A12 45%,#32221A 100%)}
+.cs-book-bg{background:linear-gradient(140deg,#150B10 0%,#1F1018 45%,#2A1520 100%)}
+
+.cs-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:80px 52px 56px;
+}
+.cs-back{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:48px;
+  cursor:pointer;background:none;border:none;
+  transition:color .2s;
+}
+.cs-back:hover{color:rgba(255,255,255,.65)}
+.cs-ey{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.cs-ey-dot{width:7px;height:7px;border-radius:50%;animation:pulse 3s ease-in-out infinite}
+.cs-ey-txt{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.cs-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px,9vw,120px);
+  font-weight:900;line-height:.86;
+  letter-spacing:-.045em;color:#fff;
+}
+.cs-title em{font-style:italic;font-weight:400}
+.cs-lower{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-top:48px;gap:32px;
+}
+.cs-tag{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:clamp(16px,2vw,21px);
+  color:rgba(255,255,255,.38);max-width:480px;line-height:1.5;
+}
+.cs-pills{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.cs-pill{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.09em;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:100px;padding:5px 14px;
+  color:rgba(255,255,255,.3);white-space:nowrap;
+}
+.cs-pill.live{background:var(--rose-dim);border-color:rgba(196,121,106,.3);color:var(--rose2)}
+.cs-hero-foot{
+  position:relative;z-index:2;
+  padding:18px 52px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cs-foot-txt{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(255,255,255,.18);letter-spacing:.1em;text-transform:uppercase}
+
+/* cs layout */
+.cs-sec{padding:88px 52px}
+.cs-sec--alt{background:var(--paper)}
+.cs-sec--dk{background:var(--deep)}
+.cs-sec--tint{background:var(--chalk2)}
+
+.cs-grid2{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.cs-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+
+.cs-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(30px,4vw,48px);
+  font-weight:900;letter-spacing:-.03em;
+  line-height:1.0;margin-bottom:22px;
+}
+.cs-h em{font-style:italic;font-weight:400;color:var(--rose)}
+.cs-h.dk{color:#fff}.cs-h.dk em{color:var(--rose2)}
+
+.cs-h2{font-family:'Playfair Display',serif;font-size:clamp(22px,2.8vw,30px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:12px}
+.cs-body{font-size:16.5px;color:var(--forest2);line-height:1.82}
+.cs-body p+p{margin-top:18px}
+.cs-body-sm{font-size:14.5px;color:var(--stone);line-height:1.75}
+.cs-body-sm.dk{color:rgba(255,255,255,.42)}
+.cs-body.dk{color:rgba(255,255,255,.6)}
+
+/* meta sidebar */
+.cs-meta{}
+.cs-meta-row{padding:13px 0;border-bottom:1px solid var(--rule)}
+.cs-meta-row:first-child{border-top:1px solid var(--rule)}
+.cs-meta-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);margin-bottom:3px}
+.cs-meta-v{font-size:14.5px;font-weight:600;color:var(--forest)}
+
+/* personal note box */
+.note-box{
+  background:var(--rose-bg);
+  border-left:3px solid var(--rose);
+  padding:20px 24px;margin-top:28px;
+  border-radius:0 4px 4px 0;
+}
+.note-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--rose);margin-bottom:6px}
+.note-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:var(--forest);line-height:1.45}
+
+/* problem grid */
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(255,255,255,.05);margin-top:48px}
+.prob-card{padding:38px 32px;background:var(--deep2);transition:background .2s}
+.prob-card:hover{background:var(--deep3)}
+.prob-n{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:rgba(255,255,255,.05);line-height:1;margin-bottom:10px}
+.prob-ttl{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:9px}
+.prob-body{font-size:13.5px;color:rgba(255,255,255,.38);line-height:1.72}
+
+/* process list */
+.proc-list{}
+.proc-step{display:grid;grid-template-columns:90px 1fr;border-bottom:1px solid var(--rule)}
+.proc-step:last-child{border:none}
+.proc-l{padding:30px 0;border-right:1px solid var(--rule);padding-right:22px;display:flex;flex-direction:column;gap:4px}
+.proc-n{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:var(--chalk3);line-height:1}
+.proc-phase{font-family:'IBM Plex Mono',monospace;font-size:8.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--rose)}
+.proc-r{padding:30px 0 30px 28px}
+.proc-ttl{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:9px;letter-spacing:-.01em}
+.proc-body{font-size:14.5px;color:var(--forest2);line-height:1.74}
+
+/* impact */
+.impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(255,255,255,.05);margin-top:48px}
+.impact-c{padding:44px 38px;background:var(--deep2);position:relative;transition:background .2s}
+.impact-c:hover{background:var(--deep3)}
+.impact-c::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--rose) 0%,transparent 70%)}
+.impact-big{font-family:'Playfair Display',serif;font-size:60px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.035em;margin-bottom:8px}
+.impact-big em{font-style:italic;color:var(--rose2)}
+.impact-ttl{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:9px}
+.impact-body{font-size:13px;color:rgba(255,255,255,.36);line-height:1.68}
+
+/* learnings */
+.learn-list{}
+.learn-item{display:grid;grid-template-columns:42px 1fr;gap:18px;align-items:start;padding:26px 0;border-bottom:1px solid var(--rule)}
+.learn-item:last-child{border:none}
+.learn-ltr{font-family:'Playfair Display',serif;font-style:italic;font-size:30px;font-weight:900;color:var(--rose);opacity:.35;line-height:1;padding-top:2px}
+.learn-ttl{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+.learn-body{font-size:14px;color:var(--forest2);line-height:1.7}
+
+/* pull quote */
+.pq{border-left:3px solid var(--rose);padding:22px 28px;background:var(--rose-bg);margin:40px 0;border-radius:0 4px 4px 0}
+.pq p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(18px,2.2vw,24px);font-weight:700;color:var(--forest);line-height:1.38}
+.pq cite{display:block;margin-top:10px;font-size:12px;color:var(--stone);font-style:normal}
+
+/* next project */
+.next-proj{
+  background:var(--deep);padding:72px 52px;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:background .2s;gap:32px;
+}
+.next-proj:hover{background:var(--deep2)}
+.np-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:10px}
+.np-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,46px);font-weight:900;color:#fff;letter-spacing:-.03em;line-height:1}
+.np-arr{font-size:36px;color:rgba(255,255,255,.2);transition:color .2s,transform .2s;flex-shrink:0}
+.next-proj:hover .np-arr{color:var(--rose2);transform:translateX(6px)}
+
+/* responsive */
+@media(max-width:860px){
+  nav{padding:14px 22px}
+  .nav-links{display:none}
+  .hero-inner,.cs-inner{padding:60px 22px 44px}
+  .hero-foot,.cs-hero-foot{padding:16px 22px}
+  .hero-lower,.cs-lower{flex-direction:column;align-items:flex-start}
+  .hero-right,.cs-pills{align-items:flex-start;flex-direction:row;flex-wrap:wrap}
+  .metrics{grid-template-columns:1fr 1fr}
+  .metric{border-bottom:1px solid rgba(255,255,255,.1)}
+  .sec,.cs-sec{padding:68px 22px}
+  .about-wrap,.cs-grid2{grid-template-columns:1fr}
+  .wcard,.wcard.rev{grid-template-columns:1fr;direction:ltr}
+  .wcard-vis{min-height:220px}
+  .prob-grid,.impact-grid{grid-template-columns:1fr}
+  .cs-grid3{grid-template-columns:1fr}
+  .contact-wrap{grid-template-columns:1fr;padding:68px 22px}
+  .next-proj{padding:52px 22px}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<nav id="nav">
+  <div class="nav-logo" onclick="go('home')">Shruti <em>Murali</em></div>
+  <div class="nav-links">
+    <button class="nav-btn" onclick="go('home')">Work</button>
+    <button class="nav-btn" onclick="toAbout()">About</button>
+    <button class="nav-btn" onclick="go('omni')">Omni Connect</button>
+    <button class="nav-btn" onclick="go('quloi')">Quloi</button>
+    <button class="nav-btn" onclick="go('book')">BookBarn</button>
+  </div>
+  <button class="nav-cta" onclick="toContact()">Let's talk →</button>
+</nav>
+
+<!-- ══════════ PAGE: HOME ══════════ -->
+<div class="page active" id="pg-home">
+
+  <section class="hero">
+    <div class="hero-circle"></div>
+    <div class="hero-circle2"></div>
+    <div class="hero-inner">
+      <div class="hero-kicker r">
+        <div class="hero-kicker-dot"></div>
+        <span class="hero-kicker-txt">Lead Product Designer · AI Product Manager · Pune, India</span>
+      </div>
+      <div class="hero-name r d1">
+        Shruti<br>
+        <em class="italic">Murali</em><br>
+        <span class="ghost">Portfolio</span>
+      </div>
+      <div class="hero-lower r d2">
+        <p class="hero-tagline">5+ years designing enterprise SaaS products that ship — and owning the product thinking, systems, and decisions that make them work.</p>
+        <div class="hero-right">
+          <div class="hero-pill live">● Lead Product Designer</div>
+          <div class="hero-pill live">● Certified AI Product Manager</div>
+          <div class="hero-pill">Quloi · ATA Global · Current</div>
+          <div class="hero-pill">Gold Medalist, B.F.Tech</div>
+          <div class="hero-pill">Open to best opportunity</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-foot r d3">
+      <div class="hero-foot-l">Shruti Murali · Lead Product Designer · Enterprise SaaS · 2025</div>
+      <div class="scroll-hint">Scroll <div class="scroll-track"></div></div>
+    </div>
+  </section>
+
+  <!-- metrics -->
+  <div class="metrics">
+    <div class="metric r"><div class="metric-n">5<span style="font-size:.5em">+</span></div><div class="metric-l">Years designing enterprise SaaS products</div></div>
+    <div class="metric r d1"><div class="metric-n">150<span style="font-size:.5em">+</span></div><div class="metric-l">Reusable components in design system</div></div>
+    <div class="metric r d2"><div class="metric-n">40<span style="font-size:.5em">%</span></div><div class="metric-l">Reduction in manual tracking effort</div></div>
+    <div class="metric r d3"><div class="metric-n">35<span style="font-size:.5em">%</span></div><div class="metric-l">Avg task completion time cut</div></div>
+  </div>
+
+  <!-- work -->
+  <section class="sec" id="work">
+    <div class="overline r">Selected Work</div>
+    <h2 class="sec-h r d1">Three projects.<br><em>All shipped.</em></h2>
+    <p style="color:var(--stone);font-size:15.5px;max-width:540px;margin-top:4px" class="r d2">From 0→1 enterprise SaaS platforms to consumer apps — here's how I think, decide, and deliver.</p>
+
+    <div class="work-grid">
+
+      <!-- Omni Connect -->
+      <div class="wcard r" onclick="go('omni')">
+        <div class="wcard-copy">
+          <div>
+            <div class="wc-tag">Enterprise SaaS · Supply Chain Orchestration · 2023–25</div>
+            <h3 class="wc-h">Omni Connect</h3>
+            <p class="wc-desc">The 0→1 supply chain collaboration platform I designed and managed as Lead PD + PM at Quloi/ATA. Designed 6+ product modules, a 150-component design system, and AI-driven decision interfaces — now used by 3+ global enterprise clients.</p>
+          </div>
+          <div class="wc-foot">
+            <div class="wc-chips">
+              <span class="chip">0→1 Product</span><span class="chip">Design System</span><span class="chip">AI-driven UX</span><span class="chip">PM</span>
+            </div>
+            <div class="wc-arr">→</div>
+          </div>
+        </div>
+        <div class="wcard-vis vis-omni">
+          <div class="mock-card">
+            <div class="mock-label">Supplier Analytics · Live</div>
+            <div class="mock-stat-row">
+              <div class="mock-stat"><div class="mock-stat-n" style="color:#7EC89E">94%</div><div class="mock-stat-l">On-Time</div></div>
+              <div class="mock-stat"><div class="mock-stat-n">4.8</div><div class="mock-stat-l">Score</div></div>
+              <div class="mock-stat" style="background:rgba(196,121,106,.1);border-color:rgba(196,121,106,.2)"><div class="mock-stat-n" style="color:var(--rose2)">500+</div><div class="mock-stat-l">POs / mo</div></div>
+            </div>
+            <div class="mock-row"><div class="mock-dot" style="background:var(--rose)"></div><div class="mock-lbl">Delivery</div><div class="mock-fill" style="width:88%;background:rgba(196,121,106,.35)"></div></div>
+            <div class="mock-row"><div class="mock-dot" style="background:var(--sage)"></div><div class="mock-lbl">Quality</div><div class="mock-fill" style="width:76%;background:rgba(122,158,126,.3)"></div></div>
+            <div class="mock-row"><div class="mock-dot" style="background:#fff;opacity:.4"></div><div class="mock-lbl">Response</div><div class="mock-fill" style="width:92%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quloi -->
+      <div class="wcard rev r" onclick="go('quloi')">
+        <div class="wcard-copy">
+          <div>
+            <div class="wc-tag">B2B SaaS · Platform Design · Design System · 2023–25</div>
+            <h3 class="wc-h">Quloi Platform</h3>
+            <p class="wc-desc">The core collaboration platform — PO lifecycle management, supplier workspaces, digital bookings, and real-time logistics visibility. Where I built the 150+ component design system that powers everything across 6+ modules.</p>
+          </div>
+          <div class="wc-foot">
+            <div class="wc-chips">
+              <span class="chip">Platform Design</span><span class="chip">150+ Components</span><span class="chip">B2B SaaS</span>
+            </div>
+            <div class="wc-arr">→</div>
+          </div>
+        </div>
+        <div class="wcard-vis vis-quloi">
+          <div class="mock-card" style="max-width:320px">
+            <div class="mock-label">PO Management · Order Console</div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;background:rgba(122,158,126,.15);border:1px solid rgba(122,158,126,.2);color:rgba(122,158,126,.8);padding:3px 9px;border-radius:2px">● On Track 189</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;background:rgba(196,121,106,.15);border:1px solid rgba(196,121,106,.2);color:var(--rose2);padding:3px 9px;border-radius:2px">⚠ At Risk 41</span>
+            </div>
+            <div style="background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden">
+              <div style="padding:7px 10px;background:rgba(255,255,255,.04);font-family:'IBM Plex Mono',monospace;font-size:7px;color:rgba(255,255,255,.2);display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;text-transform:uppercase;letter-spacing:.08em">
+                <span>Supplier</span><span>ETA</span><span>Status</span>
+              </div>
+              <div style="padding:7px 10px;font-size:9.5px;color:rgba(255,255,255,.5);display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;border-top:1px solid rgba(255,255,255,.04);align-items:center"><span>Sagar Industries</span><span>Apr 12</span><span style="color:#7EC89E;font-size:8px">● On Track</span></div>
+              <div style="padding:7px 10px;font-size:9.5px;color:rgba(255,255,255,.5);display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;border-top:1px solid rgba(255,255,255,.04);align-items:center;background:rgba(196,121,106,.05)"><span>Apex Components</span><span>Apr 09</span><span style="color:var(--rose2);font-size:8px">⚠ At Risk</span></div>
+              <div style="padding:7px 10px;font-size:9.5px;color:rgba(255,255,255,.5);display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;border-top:1px solid rgba(255,255,255,.04);align-items:center"><span>TechForge Ltd</span><span>Apr 22</span><span style="color:#7EC89E;font-size:8px">● On Track</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BookBarn -->
+      <div class="wcard r" onclick="go('book')">
+        <div class="wcard-copy">
+          <div>
+            <div class="wc-tag">Consumer App · UX Research · Marketplace · 2022</div>
+            <h3 class="wc-h">BookBarn</h3>
+            <p class="wc-desc">End-to-end consumer app design — peer-to-peer pre-loved books trading. Conducted 18 user interviews, designed three user archetypes, and shipped a full UI system with mood-based discovery, condition ratings, and trust-first seller profiles.</p>
+          </div>
+          <div class="wc-foot">
+            <div class="wc-chips">
+              <span class="chip">18 Interviews</span><span class="chip">Consumer UX</span><span class="chip">End-to-End</span>
+            </div>
+            <div class="wc-arr">→</div>
+          </div>
+        </div>
+        <div class="wcard-vis vis-book">
+          <div style="display:flex;gap:14px;align-items:center">
+            <div class="mock-phone">
+              <div class="mock-phone-notch"></div>
+              <div class="mock-book-card" style="background:rgba(196,121,106,.2)">📚</div>
+              <div class="mock-book-ttl">The Alchemist</div>
+              <div class="mock-book-price">₹ 120</div>
+            </div>
+            <div class="mock-phone" style="margin-top:28px">
+              <div class="mock-phone-notch"></div>
+              <div class="mock-book-card" style="background:rgba(122,158,126,.15)">📖</div>
+              <div class="mock-book-ttl">Atomic Habits</div>
+              <div class="mock-book-price">₹ 180</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="sec sec--alt" id="about">
+    <div class="about-wrap">
+      <div class="r">
+        <div class="overline">About Shruti</div>
+        <h2 class="about-h">Designer who thinks<br>like a <em>product person.</em></h2>
+        <div class="body-txt">
+          <p>I started in fashion technology — which sounds unrelated, but gave me something most designers lack from day one: a deep intuition for how systems connect and how aesthetics serve function. When I transitioned into product design, the parallel was immediate.</p>
+          <p>Today I lead design and product management at Quloi, building enterprise SaaS for global supply chains. I've conducted 20+ user research sessions, shipped 10+ major features per quarter, built a 150-component design system, and mentored a team of designers — all while staying the designer in the room who understands the business outcome.</p>
+          <p>I'm a Certified AI Product Manager (Microsoft) and hold certifications in Digital Product Management from UVa and Enterprise Product Management. The AI lens shows up in everything I design — from predictive analytics interfaces to decision-support dashboards.</p>
+        </div>
+        <div class="gold-banner r">
+          <div class="gold-icon">🥇</div>
+          <div class="gold-txt">
+            <strong>B.F.Tech Gold Medalist — KLE Institute of Fashion Technology, 2019</strong>
+            The foundation of a systems thinker. Fashion taught me that every detail serves the whole.
+          </div>
+        </div>
+        <div class="cert-row r">
+          <span class="cert">Microsoft Certified AI PM</span>
+          <span class="cert">Digital PM · UVa</span>
+          <span class="cert">Enterprise PM Fundamentals</span>
+          <span class="cert">Product Strategy & Analytics with AI</span>
+        </div>
+      </div>
+
+      <div class="r d2">
+        <div class="overline">What I bring</div>
+        <div class="skill-blocks">
+          <div class="skill-b"><div class="skill-tag">Core</div><div class="skill-ttl">Product Design</div><div class="skill-desc">End-to-end UX, IA, interaction design, high-density dashboards, high-fidelity Figma, responsive design.</div></div>
+          <div class="skill-b"><div class="skill-tag">Strategic</div><div class="skill-ttl">Product Management</div><div class="skill-desc">Roadmapping, OKRs, design sprints, agile/scrum, stakeholder management, feature prioritisation.</div></div>
+          <div class="skill-b"><div class="skill-tag">Systems</div><div class="skill-ttl">Design Systems</div><div class="skill-desc">150+ components, design tokens, auto layout, variables — built from scratch, governed at scale.</div></div>
+          <div class="skill-b"><div class="skill-tag">Research</div><div class="skill-ttl">UX Research</div><div class="skill-desc">20+ interviews, usability testing, affinity mapping, JTBD framework, user journey mapping.</div></div>
+          <div class="skill-b"><div class="skill-tag">Emerging</div><div class="skill-ttl">AI-Driven UX</div><div class="skill-desc">Predictive analytics interfaces, decision-support design, AI-assisted product discovery & workflow automation.</div></div>
+          <div class="skill-b"><div class="skill-tag">Domain</div><div class="skill-ttl">Supply Chain / Logistics</div><div class="skill-desc">Deep knowledge of ERP integrations, B2B enterprise platforms, operational dashboards, shipment & inventory.</div></div>
+        </div>
+
+        <div class="overline" style="margin-top:48px">Experience</div>
+        <div class="exp-item">
+          <div class="exp-yr">Jan 2025<br>Present</div>
+          <div>
+            <div class="exp-role">Lead UI/UX & Product Designer</div>
+            <div class="exp-co">Quloi, Inc. — Pune, India</div>
+            <div class="exp-desc">Leading product design strategy across 6+ modules. Built 150-component design system. Mentored 2 junior designers. Reduced design-to-dev handoff by ~50%. Conducted 20+ user research sessions that shaped 2 major feature pivots.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-yr">Jan 2023<br>Dec 2024</div>
+          <div>
+            <div class="exp-role">UI/UX & Product Designer</div>
+            <div class="exp-co">Quloi, Inc. — Pune, India</div>
+            <div class="exp-desc">Sole designer. Owned complete 0→1 design of Omni Connect — from blank canvas to production launch. Designed high-density dashboards cutting time-to-insight by ~60%. Shipped 10+ major features per quarter with &lt;2 revision cycles average.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-yr">Dec 2019<br>Feb 2022</div>
+          <div>
+            <div class="exp-role">Executive Operations Manager</div>
+            <div class="exp-co">DateTheRamp — Bengaluru, India</div>
+            <div class="exp-desc">Led team of 17. Redesigned UX/UI of internal backend systems — my first hands-on UX work that led to formal design career transition. Increased operational efficiency by 30%.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <div class="contact-wrap" id="contact">
+    <div class="r">
+      <h2 class="contact-big">Let's<br><em>build</em><br>together.</h2>
+      <p class="contact-sub">Open to Lead Product Designer, Senior PD, and PM+Design hybrid roles — at companies building things that matter. Willing to relocate.</p>
+    </div>
+    <div class="r d2">
+      <div class="contact-links">
+        <div class="contact-link" onclick="window.open('https://www.linkedin.com/in/shruthi-murali09/','_blank')"><span>LinkedIn — shruthi-murali09</span><span class="cl-arr">↗</span></div>
+        <div class="contact-link" onclick="window.open('https://behance.net/shrutimurali2','_blank')"><span>Behance — shrutimurali2</span><span class="cl-arr">↗</span></div>
+        <div class="contact-link" onclick="window.open('mailto:shruthi.murali09@gmail.com')"><span>shruthi.murali09@gmail.com</span><span class="cl-arr">↗</span></div>
+        <div class="contact-link"><span>+91 74116 58694</span><span class="cl-arr">→</span></div>
+        <div class="contact-link"><span>Download Resume</span><span class="cl-arr">↓</span></div>
+      </div>
+    </div>
+    <div class="contact-foot r">
+      <div class="contact-credit">Shruti Murali · Lead Product Designer · Pune, India · 2025</div>
+      <div class="contact-credit">Open to remote & relocation</div>
+    </div>
+  </div>
+
+</div><!-- /home -->
+
+<!-- ══════════ CASE STUDY: OMNI CONNECT ══════════ -->
+<div class="page" id="pg-omni">
+  <section class="cs-hero cs-omni-bg">
+    <div class="hero:before"></div>
+    <div class="cs-inner">
+      <button class="cs-back r" onclick="go('home')">← Back to work</button>
+      <div class="cs-ey r d1"><div class="cs-ey-dot" style="background:var(--sage)"></div><span class="cs-ey-txt">Enterprise SaaS · Supply Chain · Quloi / ATA · 2023–25</span></div>
+      <div class="cs-title r d2">Omni<br><em style="color:var(--rose2)">Connect</em></div>
+      <div class="cs-lower r d3">
+        <p class="cs-tag">Building the operating system for supply chains that were running on spreadsheets, gut feel, and 30-reply email threads.</p>
+        <div class="cs-pills">
+          <div class="cs-pill live">● Lead Product Designer + PM</div>
+          <div class="cs-pill live">● Sole designer 0→1</div>
+          <div class="cs-pill">3+ global enterprise clients</div>
+          <div class="cs-pill">6+ modules shipped</div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-hero-foot"><div class="cs-foot-txt">Omni Connect · Quloi Inc. · ATA Freight · 45+ Countries</div><div class="scroll-hint" style="color:rgba(255,255,255,.18)">Scroll <div class="scroll-track"></div></div></div>
+  </section>
+
+  <section class="cs-sec cs-sec--alt">
+    <div class="cs-grid2">
+      <div class="r">
+        <div class="overline">Overview</div>
+        <h2 class="cs-h">What I built from <em>nothing.</em></h2>
+        <div class="cs-body">
+          <p>Omni Connect is Quloi's flagship enterprise product — a global supply chain collaboration platform deployed across 3+ enterprise clients including ATA Freight. I was the sole designer from day one, responsible for every user research session, wireframe, high-fidelity prototype, and design specification.</p>
+          <p>As the product scaled, I moved into a Lead PD + PM role — owning the product strategy, design system governance, cross-functional alignment, and mentoring a small design team. The platform is now the company's primary revenue driver.</p>
+        </div>
+        <div class="pq"><p>"Designing for enterprise supply chain means designing for people who manage millions in live shipments. There's no room for beautiful-but-confusing."</p></div>
+      </div>
+      <div class="r d2">
+        <div class="cs-meta">
+          <div class="cs-meta-row"><div class="cs-meta-k">My Role</div><div class="cs-meta-v">Lead Product Designer + Product Manager</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Scope</div><div class="cs-meta-v">Sole designer 0→1, then Lead PD of 3-person team</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Platform</div><div class="cs-meta-v">Enterprise Web SaaS</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Modules</div><div class="cs-meta-v">6+ product modules across order, booking, shipment & supplier management</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Design System</div><div class="cs-meta-v">150+ reusable components, design tokens, Auto Layout</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Research</div><div class="cs-meta-v">20+ user interviews, 3 rounds of usability testing</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Tools</div><div class="cs-meta-v">Figma · FigJam · Miro · Jira · Notion</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Clients</div><div class="cs-meta-v">3+ global enterprise clients, 45+ countries</div></div>
+        </div>
+        <div class="note-box r d3">
+          <div class="note-tag">Personal note</div>
+          <div class="note-txt">"I went from a blank canvas to the company's flagship revenue driver. This project is proof that one designer, with full ownership, can change a business."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-sec cs-sec--dk">
+    <div class="overline lt r">The Problem</div>
+    <h2 class="cs-h dk r d1">The mess I was hired to <em>untangle.</em></h2>
+    <p class="cs-body-sm dk r d2" style="max-width:660px">Six failure modes documented from 20+ user interviews and embedded research — before a single wireframe was drawn. I spent my first weeks watching and listening.</p>
+    <div class="prob-grid r">
+      <div class="prob-card"><div class="prob-n">01</div><div class="prob-ttl">Zero Real-Time Visibility</div><div class="prob-body">Operations teams managing 500+ purchase orders per month had no live view of anything. Every update required manual follow-up across email and WhatsApp. Decisions were made on stale data — or gut feel.</div></div>
+      <div class="prob-card"><div class="prob-n">02</div><div class="prob-ttl">Seven Tools, One Job</div><div class="prob-body">Order management, freight booking, document sharing, supplier communication — all in separate tools. Context lost at every handoff. Nothing talked to anything else. Coordination happened in email threads 30+ replies deep.</div></div>
+      <div class="prob-card"><div class="prob-n">03</div><div class="prob-ttl">No Accountability Layer</div><div class="prob-body">Without structured execution data, procurement teams had no defensible way to hold suppliers accountable. Every performance conversation devolved into dispute with no audit trail.</div></div>
+      <div class="prob-card"><div class="prob-n">04</div><div class="prob-ttl">Manual Data Entry Everywhere</div><div class="prob-body">Bulk updates to hundreds of orders happened one by one. No batch workflows. Operations teams were spending hours on tasks that should have taken minutes — draining capacity from actual decision-making.</div></div>
+      <div class="prob-card"><div class="prob-n">05</div><div class="prob-ttl">ERP Data Silos</div><div class="prob-body">Buyers and suppliers worked from conflicting PO versions. ERP systems didn't sync. The "single source of truth" was whoever had the most recent email. Disputes wasted days of operational time.</div></div>
+      <div class="prob-card"><div class="prob-n">06</div><div class="prob-ttl">Always Reactive, Never Predictive</div><div class="prob-body">No early-warning system. Teams discovered problems only after production lines were already affected. Time-to-insight was so slow that decisions were always catching up to reality — never ahead of it.</div></div>
+    </div>
+  </section>
+
+  <section class="cs-sec">
+    <div class="overline r">Design Process</div>
+    <h2 class="cs-h r d1">How I went from <em>research to revenue driver.</em></h2>
+    <div class="proc-list r d2">
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">01</div><div class="proc-phase">Discovery</div></div><div class="proc-r"><div class="proc-ttl">Embedded Research — Not Surveys</div><div class="proc-body">Conducted 20+ user interviews and usability testing sessions with logistics operators and enterprise buyers. Embedded with operations teams before touching Figma. Ran stakeholder workshops to align product, engineering, and business goals. Findings directly shaped 2 major feature pivots and accelerated roadmap prioritisation.</div></div></div>
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">02</div><div class="proc-phase">Strategy</div></div><div class="proc-r"><div class="proc-ttl">Product Strategy + Roadmap Ownership</div><div class="proc-body">As PM+PD, I defined the module architecture based on impact vs. effort. Sequenced delivery to ship highest-urgency problems first: order visibility, then booking, then supplier analytics. Every roadmap decision tied to an operational metric — not a design preference. Contributed to product strategy for ERP integrations and logistics partner APIs.</div></div></div>
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">03</div><div class="proc-phase">Design System</div></div><div class="proc-r"><div class="proc-ttl">150+ Component System — Built Before Screens</div><div class="proc-body">Built the design system from scratch before designing a single module screen. 150+ reusable components, design tokens, Auto Layout patterns, and component variants across 6+ product modules. Result: 50% reduction in design-to-dev handoff time, 30% reduction in design QA cycles, and a 3-person design team with real consistency at scale.</div></div></div>
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">04</div><div class="proc-phase">Design</div></div><div class="proc-r"><div class="proc-ttl">AI-Driven Interfaces & High-Density Dashboards</div><div class="proc-body">Designed predictive analytics dashboards, real-time shipment tracking interfaces, AI-driven decision surfaces, and bulk-action workflows. 3 rounds of moderated usability testing with enterprise users validated interaction patterns. Cut avg. task completion time by ~35%. Cut time-to-insight by ~60% for teams managing 500+ purchase orders per month.</div></div></div>
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">05</div><div class="proc-phase">Ship + Lead</div></div><div class="proc-r"><div class="proc-ttl">10+ Features Per Quarter, &lt;2 Revision Cycles</div><div class="proc-body">Collaborated in Agile sprints with PMs, engineers, and supply chain domain experts — shipping 10+ major features per quarter with fewer than 2 revision cycles per feature on average. Used high-fidelity prototypes directly in enterprise client presentations and investor decks. Mentored 2 junior designers. Established design review cadence and UX documentation standards.</div></div></div>
+    </div>
+  </section>
+
+  <section class="cs-sec cs-sec--dk">
+    <div class="overline lt r">Results</div>
+    <h2 class="cs-h dk r d1">Numbers that <em>moved the business.</em></h2>
+    <div class="impact-grid r">
+      <div class="impact-c"><div class="impact-big">~40<em>%</em></div><div class="impact-ttl">Reduction in Manual Tracking Effort</div><div class="impact-body">AI-driven decision interfaces and real-time operational dashboards gave supply chain teams visibility across thousands of live shipments without the manual follow-up overhead.</div></div>
+      <div class="impact-c"><div class="impact-big">~35<em>%</em></div><div class="impact-ttl">Cut in Avg. Task Completion Time</div><div class="impact-body">Complex interaction design and multi-step flows for order management, booking, and supplier collaboration — validated through 3 rounds of moderated usability testing with enterprise users.</div></div>
+      <div class="impact-c"><div class="impact-big">~50<em>%</em></div><div class="impact-ttl">Faster Design-to-Dev Handoff</div><div class="impact-body">150+ component design system with tokens, Auto Layout, and documented standards across 6+ modules and 3-person design team. Reduced QA cycles by ~30%.</div></div>
+      <div class="impact-c"><div class="impact-big">3<em>+</em></div><div class="impact-ttl">Global Enterprise Clients in 18 Months</div><div class="impact-body">Platform scaled to 3+ global enterprise clients within 18 months of launch. High-fidelity prototypes used directly in client presentations and investor decks, contributing to adoption and onboarding.</div></div>
+    </div>
+  </section>
+
+  <section class="cs-sec cs-sec--alt">
+    <div class="cs-grid2">
+      <div class="r">
+        <div class="overline">Reflections</div>
+        <h2 class="cs-h">What building enterprise SaaS <em>actually</em> taught me.</h2>
+      </div>
+      <div class="r d2">
+        <div class="learn-list">
+          <div class="learn-item"><div class="learn-ltr">A</div><div><div class="learn-ttl">Operational depth beats visual polish.</div><div class="learn-body">Enterprise users never forgive workflows that don't match reality. My most valuable input wasn't from design critiques — it was from watching operations managers try to process 500 purchase orders with our interface.</div></div></div>
+          <div class="learn-item"><div class="learn-ltr">B</div><div><div class="learn-ttl">The design system IS the product at scale.</div><div class="learn-body">Building 150 components before any screens felt slow. It paid back constantly — in handoff speed, QA reduction, team consistency, and the ability to add modules without starting from zero.</div></div></div>
+          <div class="learn-item"><div class="learn-ltr">C</div><div><div class="learn-ttl">Owning PM + Design creates a superpower.</div><div class="learn-body">No translation loss between what the product needs to do and how it should feel. Every design decision could be justified by a metric — and every metric could be traced back to a design decision.</div></div></div>
+          <div class="learn-item"><div class="learn-ltr">D</div><div><div class="learn-ttl">AI interfaces need even more UX rigour.</div><div class="learn-body">When a dashboard surface makes predictions, the stakes of confusing UX are higher. I learned to design for trust — making it clear what the system knows, what it's inferring, and what needs human judgment.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="next-proj r" onclick="go('quloi')">
+    <div><div class="np-label">Next project</div><div class="np-title">Quloi Platform →</div></div>
+    <div class="np-arr">→</div>
+  </div>
+</div>
+
+<!-- ══════════ CASE STUDY: QULOI ══════════ -->
+<div class="page" id="pg-quloi">
+  <section class="cs-hero cs-quloi-bg">
+    <div class="cs-inner">
+      <button class="cs-back r" onclick="go('home')">← Back to work</button>
+      <div class="cs-ey r d1"><div class="cs-ey-dot" style="background:var(--rose);"></div><span class="cs-ey-txt">B2B SaaS · Platform Design · Design System · 2023–25</span></div>
+      <div class="cs-title r d2">Quloi<br><em style="color:var(--rose2)">Platform</em></div>
+      <div class="cs-lower r d3">
+        <p class="cs-tag">The platform that powers Omni Connect — 150+ components, 6+ modules, and the design system that keeps it all consistent.</p>
+        <div class="cs-pills">
+          <div class="cs-pill live">● Lead Product Designer</div>
+          <div class="cs-pill">150+ Component Design System</div>
+          <div class="cs-pill">PO & Supplier Management</div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-hero-foot"><div class="cs-foot-txt">Quloi · Supply Chain Visibility & Collaboration Platform</div></div>
+  </section>
+
+  <section class="cs-sec cs-sec--alt">
+    <div class="cs-grid2">
+      <div class="r">
+        <div class="overline sage-c">Overview</div>
+        <h2 class="cs-h">The platform <em>behind</em> the platform.</h2>
+        <div class="cs-body">
+          <p>Quloi is the core collaboration platform powering Omni Connect — covering purchase order lifecycle management, supplier workspaces, digital bookings, and real-time logistics visibility. I designed the full platform from scratch and built the design system that governs everything across 6+ modules.</p>
+          <p>This is where my deepest systems thinking lives. The challenge: how do you build something information-dense enough for power users managing hundreds of orders — and approachable enough for suppliers who log in once a week and need to act immediately?</p>
+        </div>
+        <div class="pq"><p>"Good enterprise UX isn't about simplifying — it's about making complexity navigable without hiding the information people need to make decisions."</p></div>
+      </div>
+      <div class="r d2">
+        <div class="cs-meta">
+          <div class="cs-meta-row"><div class="cs-meta-k">My Role</div><div class="cs-meta-v">Lead Product Designer (sole designer → team lead)</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Platform</div><div class="cs-meta-v">Enterprise Web SaaS — B2B Supply Chain</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Design System</div><div class="cs-meta-v">150+ components, tokens, Auto Layout, variants — built from scratch</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Key Modules</div><div class="cs-meta-v">PO Management · Supplier Collaboration · Digital Quotations · Shipment Tracking · Supplier Scorecards</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Impact</div><div class="cs-meta-v">~50% faster handoff · ~30% fewer QA cycles · &lt;2 revision cycles per feature</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Tools</div><div class="cs-meta-v">Figma (Variables, Tokens, Auto Layout) · FigJam · Miro</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-sec cs-sec--tint">
+    <div class="overline sage-c r">Design System</div>
+    <h2 class="cs-h r d1">150 components. Built <em>before any screens.</em></h2>
+    <div class="cs-grid2" style="margin-top:40px">
+      <div class="r d1">
+        <div class="cs-body">
+          <p>Before designing a single module, I built the foundation. Not a mood board — an actual system. Tokens for every color, spacing, radius, and shadow. Component states for every interaction (default, hover, focus, disabled, loading, error). A grid system purpose-built for data-heavy enterprise dashboards.</p>
+          <p>The investment paid off immediately. When I handed off to engineering, there was nothing to interpret — just implement. When I mentored junior designers, they had a shared language. When a new module was needed, we built it in days, not weeks, because the building blocks already existed.</p>
+        </div>
+      </div>
+      <div class="r d2">
+        <div class="proc-list">
+          <div class="proc-step" style="grid-template-columns:70px 1fr"><div class="proc-l"><div class="proc-n" style="font-size:30px">Tok</div><div class="proc-phase">Foundation</div></div><div class="proc-r"><div class="proc-ttl">Design Tokens First</div><div class="proc-body">Color, spacing, radius, shadow, and typography — all as tokens. Semantic naming so every decision is intentional and consistent across all 6+ modules.</div></div></div>
+          <div class="proc-step" style="grid-template-columns:70px 1fr"><div class="proc-l"><div class="proc-n" style="font-size:30px">Cmp</div><div class="proc-phase">Components</div></div><div class="proc-r"><div class="proc-ttl">150+ Components, All States</div><div class="proc-body">Tables, filters, status badges, timeline indicators, modals, form elements, bulk-action toolbars — every state documented, every edge case handled.</div></div></div>
+          <div class="proc-step" style="grid-template-columns:70px 1fr"><div class="proc-l"><div class="proc-n" style="font-size:30px">Grid</div><div class="proc-phase">Layout</div></div><div class="proc-r"><div class="proc-ttl">Dashboard Grid System</div><div class="proc-body">A flexible grid purpose-built for data density — handles single KPI cards, complex multi-panel operational views, and everything in between without breaking hierarchy.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-sec">
+    <div class="overline sage-c r">Core Modules</div>
+    <h2 class="cs-h r d1">Five problems. <em>Five solutions.</em></h2>
+    <div class="cs-grid3" style="margin-top:44px">
+      <div class="r" style="background:var(--chalk2);padding:34px 28px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--rose);margin-bottom:12px">MODULE 01</div>
+        <div class="cs-h2">PO Management</div>
+        <p class="cs-body-sm">Centralised purchase order lifecycle — creation, tracking, modification, bulk updates, and milestone visibility. Single source of truth for buyers and suppliers. Cut time-to-insight by ~60%.</p>
+        <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:5px"><span class="chip">Order Tracking</span><span class="chip">Bulk Actions</span><span class="chip">ERP Sync</span></div>
+      </div>
+      <div class="r d1" style="background:var(--chalk2);padding:34px 28px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--rose);margin-bottom:12px">MODULE 02</div>
+        <div class="cs-h2">Supplier Collaboration</div>
+        <p class="cs-body-sm">Role-based workspaces, centralised document management, approval workflows, and in-platform communication. Replaced 30-reply email threads with structured, auditable workflows.</p>
+        <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:5px"><span class="chip">Workspaces</span><span class="chip">Documents</span><span class="chip">Approvals</span></div>
+      </div>
+      <div class="r d2" style="background:var(--chalk2);padding:34px 28px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--rose);margin-bottom:12px">MODULE 03</div>
+        <div class="cs-h2">Digital Quotations</div>
+        <p class="cs-body-sm">Invite forwarders, receive digital quotes, compare rates side-by-side — all in-platform. RFQ-based booking with transparent rate discovery and lifecycle management through closure.</p>
+        <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:5px"><span class="chip">RFQ Workflow</span><span class="chip">Quote Comparison</span></div>
+      </div>
+      <div class="r" style="background:var(--chalk2);padding:34px 28px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--rose);margin-bottom:12px">MODULE 04</div>
+        <div class="cs-h2">Shipment Tracking</div>
+        <p class="cs-body-sm">Real-time visibility across multimodal shipments — ETA, risk indicators, milestone monitoring, carrier performance, and delay alerts. Designed for teams managing hundreds of live shipments.</p>
+        <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:5px"><span class="chip">Live Tracking</span><span class="chip">Risk Flags</span><span class="chip">Documents</span></div>
+      </div>
+      <div class="r d1" style="background:var(--chalk2);padding:34px 28px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--rose);margin-bottom:12px">MODULE 05</div>
+        <div class="cs-h2">Supplier Scorecards</div>
+        <p class="cs-body-sm">Performance tracking by on-time delivery, quality, price variance, and responsiveness. Data-backed scorecards that give procurement teams objective evidence for supplier conversations and negotiations.</p>
+        <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:5px"><span class="chip">Scorecards</span><span class="chip">Analytics</span><span class="chip">KPIs</span></div>
+      </div>
+      <div class="r d2" style="background:var(--deep);padding:34px 28px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--rose2);margin-bottom:12px">RESULT</div>
+        <div class="cs-h2" style="color:#fff">~50% Faster<br>Handoff</div>
+        <p style="font-size:13.5px;color:rgba(255,255,255,.38);line-height:1.72;margin-top:10px">The design system and documentation standards reduced design-to-dev handoff time by ~50% and design QA cycles by ~30% across the entire engineering org.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="next-proj r" onclick="go('book')">
+    <div><div class="np-label">Next project</div><div class="np-title">BookBarn →</div></div>
+    <div class="np-arr">→</div>
+  </div>
+</div>
+
+<!-- ══════════ CASE STUDY: BOOKBARN ══════════ -->
+<div class="page" id="pg-book">
+  <section class="cs-hero cs-book-bg">
+    <div class="cs-inner">
+      <button class="cs-back r" onclick="go('home')">← Back to work</button>
+      <div class="cs-ey r d1"><div class="cs-ey-dot" style="background:#C4796A;"></div><span class="cs-ey-txt">Consumer App · Marketplace · UX Research · 2022</span></div>
+      <div class="cs-title r d2">Book<br><em style="color:var(--rose2)">Barn</em></div>
+      <div class="cs-lower r d3">
+        <p class="cs-tag">18 user interviews. Three archetypes. One end-to-end app — from blank page to shipped UI system.</p>
+        <div class="cs-pills">
+          <div class="cs-pill live">● Solo Designer</div>
+          <div class="cs-pill">18 User Interviews</div>
+          <div class="cs-pill">Consumer Marketplace</div>
+          <div class="cs-pill">End-to-End UX</div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-hero-foot"><div class="cs-foot-txt">BookBarn · Pre-loved Books Marketplace · Mobile App · 2022</div></div>
+  </section>
+
+  <section class="cs-sec cs-sec--alt">
+    <div class="cs-grid2">
+      <div class="r">
+        <div class="overline" style="--rose:#C4796A">Overview</div>
+        <h2 class="cs-h">Consumer UX from <em>zero.</em></h2>
+        <div class="cs-body">
+          <p>BookBarn is a peer-to-peer marketplace for buying and selling pre-loved books. This project shows a completely different side of my design practice — consumer UX, from user research through to a complete mobile app UI system.</p>
+          <p>Unlike my enterprise work where I had operations teams to embed with, here the constraint was purely: talk to readers, understand the problem deeply, and let the research drive every design decision. No existing brief. No stakeholders. Just good UX thinking.</p>
+          <p>It remains my most-appreciated project on Behance — because the problem is human, the research is real, and the design shows a genuine point of view.</p>
+        </div>
+      </div>
+      <div class="r d2">
+        <div class="cs-meta">
+          <div class="cs-meta-row"><div class="cs-meta-k">My Role</div><div class="cs-meta-v">Solo Product Designer — end-to-end</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Research</div><div class="cs-meta-v">18 user interviews across age groups and reading habits</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Methods</div><div class="cs-meta-v">User interviews · Affinity mapping · Competitive analysis · Usability testing · User personas</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Platform</div><div class="cs-meta-v">Consumer Mobile App (iOS-first)</div></div>
+          <div class="cs-meta-row"><div class="cs-meta-k">Tools</div><div class="cs-meta-v">Figma · Procreate · Google Forms · Google Slides</div></div>
+        </div>
+        <div class="note-box r d3">
+          <div class="note-tag">Why this matters</div>
+          <div class="note-txt">"This shows I can design beyond enterprise dashboards. Consumer UX requires a completely different empathy — designing for delight, not just efficiency."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-sec">
+    <div class="overline r">Research</div>
+    <h2 class="cs-h r d1">18 interviews. Three <em>archetypes.</em></h2>
+    <div class="cs-grid2" style="margin-top:36px">
+      <div class="r d1">
+        <div class="cs-body">
+          <p>I interviewed 18 avid readers across age groups and reading habits. The questions weren't about what features they wanted — they were about behaviour: how do you decide what to read next? What happens to a book you've finished? What would make you trust a stranger with your favourite book?</p>
+          <p>Three patterns emerged consistently: trust in the counterpart, confidence in the book's condition, and the joy of serendipitous discovery. None of the existing platforms (OLX, Facebook Marketplace) served all three. That gap became the design brief.</p>
+        </div>
+      </div>
+      <div class="r d2">
+        <div class="cs-grid3" style="grid-template-columns:1fr;gap:10px">
+          <div style="background:var(--chalk2);padding:22px 20px;border-left:3px solid var(--rose)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--rose);margin-bottom:6px">Archetype 01</div>
+            <div class="cs-h2" style="font-size:18px">The Curator</div>
+            <div class="cs-body-sm">Sells carefully. Selective about buyers. Cares deeply about where their books end up. Needs trust signals and a way to know their books are going to the right person.</div>
+          </div>
+          <div style="background:var(--chalk2);padding:22px 20px;border-left:3px solid var(--sage)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:6px">Archetype 02</div>
+            <div class="cs-h2" style="font-size:18px">The Serendipitous Reader</div>
+            <div class="cs-body-sm">Discovers by mood, not title. Doesn't know what they want until they see it. Needs a discovery experience that matches how readers actually browse — not just search.</div>
+          </div>
+          <div style="background:var(--chalk2);padding:22px 20px;border-left:3px solid var(--stone)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);margin-bottom:6px">Archetype 03</div>
+            <div class="cs-h2" style="font-size:18px">The Practical Trader</div>
+            <div class="cs-body-sm">Just wants fair value, fast. Doesn't attach emotionally to books. Needs a clean, efficient listing and transaction flow — no friction, no storytelling required.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-sec cs-sec--tint">
+    <div class="overline r">Design Process</div>
+    <h2 class="cs-h r d1">Research-led, <em>all the way.</em></h2>
+    <div class="proc-list r d2">
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">01</div><div class="proc-phase">Research</div></div><div class="proc-r"><div class="proc-ttl">18 User Interviews</div><div class="proc-body">Interviewed 18 avid readers across demographics. Key insight: condition and trust were non-negotiable — more important than price or selection. Most participants had been burned by misrepresented book conditions on generic platforms. This single insight drove most of the design decisions.</div></div></div>
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">02</div><div class="proc-phase">Synthesis</div></div><div class="proc-r"><div class="proc-ttl">Affinity Mapping → Three Archetypes</div><div class="proc-body">Synthesised research using affinity mapping — grouping behaviours, motivations, and pain points across all 18 participants. Three distinct archetypes emerged, each shaping a different area of the product. Used Google Forms for quantitative validation across a wider set of 40+ readers.</div></div></div>
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">03</div><div class="proc-phase">Design</div></div><div class="proc-r"><div class="proc-ttl">End-to-End UI System</div><div class="proc-body">Designed the complete app — home, discovery, listing flow, condition rating, messaging, seller profiles, and transaction. Chose a warm, paper-textured visual language deliberately: BookBarn should feel like a bookshop, not an e-commerce platform. Every colour, font, and illustration decision was intentional and archetype-informed.</div></div></div>
+      <div class="proc-step"><div class="proc-l"><div class="proc-n">04</div><div class="proc-phase">Test</div></div><div class="proc-r"><div class="proc-ttl">Usability Testing — Key Finding</div><div class="proc-body">Tested with 8 participants across all three archetypes. The mood-based discovery flow was the most loved feature — and the most confusing to set up as a seller. Iterated the mood-tagging flow three times to reduce friction to under 45 seconds per new listing. The condition rating system was trusted immediately by every participant.</div></div></div>
+    </div>
+  </section>
+
+  <section class="cs-sec cs-sec--alt">
+    <div class="overline r">Key Decisions</div>
+    <h2 class="cs-h r d1">Why it looks and feels <em>the way it does.</em></h2>
+    <div class="cs-grid3" style="margin-top:44px">
+      <div class="r" style="background:var(--chalk2);padding:34px 28px">
+        <div style="font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--chalk3);line-height:1;margin-bottom:12px">01</div>
+        <div class="cs-h2">Condition Rating System</div>
+        <p class="cs-body-sm">Standard star ratings don't work for books — a 3-star could mean "readable" or "falling apart." I designed a 5-level condition system with visual examples and written descriptions for each level. Every usability test participant immediately trusted it more than any star rating. Trust problem: solved.</p>
+      </div>
+      <div class="r d1" style="background:var(--chalk2);padding:34px 28px">
+        <div style="font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--chalk3);line-height:1;margin-bottom:12px">02</div>
+        <div class="cs-h2">Discover by Mood</div>
+        <p class="cs-body-sm">Most readers don't know the title they want — they know how they want to feel. I designed a mood-based discovery flow (cozy, thought-provoking, escapist, intense) as the primary path, with search as secondary. The most-appreciated feature in testing. The Serendipitous Reader archetype was finally served.</p>
+      </div>
+      <div class="r d2" style="background:var(--chalk2);padding:34px 28px">
+        <div style="font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--chalk3);line-height:1;margin-bottom:12px">03</div>
+        <div class="cs-h2">Seller Trust Profile</div>
+        <p class="cs-body-sm">On BookBarn you're not buying from a stranger — you're buying from a reader. Seller profiles show reading history, favourite genres, and past listing reviews. It turns a transaction into a connection between people who genuinely care about the same thing. The Curator archetype demanded this, and everyone benefited from it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="next-proj r" onclick="go('omni')">
+    <div><div class="np-label">Back to start</div><div class="np-title">Omni Connect →</div></div>
+    <div class="np-arr">→</div>
+  </div>
+</div>
+
+<script>
+// cursor
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{
+  const s=`left:${e.clientX}px;top:${e.clientY}px`;
+  cur.style.cssText=s;ring.style.cssText=s;
+});
+
+// nav
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('solid',scrollY>60);
+});
+
+// routing
+const pages={
+  home:'pg-home',omni:'pg-omni',quloi:'pg-quloi',book:'pg-book'
+};
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById(pages[id]);
+  if(el){el.classList.add('active');window.scrollTo(0,0);setTimeout(reveal,80)}
+}
+function toAbout(){go('home');setTimeout(()=>document.getElementById('about')?.scrollIntoView({behavior:'smooth'}),120)}
+function toContact(){go('home');setTimeout(()=>document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}),120)}
+
+// reveal
+function reveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')});
+  },{threshold:.07,rootMargin:'0px 0px -32px 0px'});
+  document.querySelectorAll('.r:not(.on)').forEach(el=>obs.observe(el));
+}
+reveal();
+</script>
+</body>
+</html>
